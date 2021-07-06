@@ -39,9 +39,7 @@ class Player {
 
         nextMove = this.findNextMove([0,0,-1], [0,-1,0],[-1,0,0]);
         if (nextMove >= 0) {
-            console.log("nextMove = this.findNextMove([0,0,-1], [0,-1,0],[-1,0,0])");
             this._nextMove = nextMove;
-            console.log(nextMove);
             return;
         }
 
