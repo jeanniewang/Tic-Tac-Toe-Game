@@ -1,6 +1,8 @@
 const readline = require('readline');
-const Player = require('./class/player')
+const Player = require('./class/player');
+const PlayerType = require("./enum/playerType");
 const Tile = require('./class/tile');
+const TilePattern = require('./enum/tilePattern');
 const Board = require('./class/board');
 
 const rl = readline.createInterface({
@@ -24,13 +26,13 @@ function startGame() {
     console.log(`Hello, ${name}!\n`);
 
     // initiate the game and player
-    computerPlayer = new Player("computer", "cross", "COMPUTER");
-    humanPlayer = new Player(name, "stone", "HUMAN");
+    computerPlayer = new Player("computer", TilePattern.CROSS, PlayerType.COMPUTER);
+    humanPlayer = new Player(name, TilePattern.STONE, PlayerType.HUMAN);
     
     rl.question('\nHit RETURN to start your adventure\n', () => {
 
       console.clear();
-      console.log("The computer tile is cross, yours tile is stone");
+      console.log(`The computer tile is ${TilePattern.CROSS}, yours tile is ${TilePattern.STONE}`);
 
       processCommand();
     });
@@ -63,11 +65,13 @@ function playerMove(pos) {
     // human player
     humanPlayer.nextMove = pos;
     p = humanPlayer.nextMove;
-    tile = new Tile("stone", "HUMAN")
+    console.log(TilePattern.STONE);
+    tile = new Tile(TilePattern.STONE, PlayerType.HUMAN)
   } else {
     // computer player
     p = computerPlayer.nextMove;
-    tile = new Tile("cross", "COMPUTER");
+    console.log(TilePattern.CROSS);
+    tile = new Tile(TilePattern.CROSS, PlayerType.COMPUTER);
   }
   
   // then place the tile for this player
@@ -76,9 +80,9 @@ function playerMove(pos) {
   win = check();
   if (winner != undefined) {
     count();
-    if (winner == "COMPUTER") {
+    if (winner == PlayerType.COMPUTER) {
       console.log(`${computerPlayer.name} win !!!`)
-    } else if (winner == "HUMAN") {
+    } else if (winner == PlayerType.HUMAN) {
       console.log(`${humanPlayer.name} win !!!`)
     } else {
       console.log("TIE !!!")
@@ -104,11 +108,11 @@ function check() {
   for (i = 0; i < lineChecker.length; i ++) {
     el = lineChecker[i];
     if (board[el[0]] && board[el[1]] && board[el[2]]) {
-      if(board[el[0]].tilePattern === "cross" && board[el[1]].tilePattern === "cross" && board[el[2]].tilePattern === "cross"){
-        winner = "COMPUTER";
+      if(board[el[0]].tilePattern === TilePattern.CROSS && board[el[1]].tilePattern === TilePattern.CROSS && board[el[2]].tilePattern === TilePattern.CROSS){
+        winner = PlayerType.COMPUTER;
         break;
-      } else if (board[el[0]].tilePattern === "stone" && board[el[1]].tilePattern === "stone" && board[el[2]].tilePattern === "stone") {
-        winner = "HUMAN";
+      } else if (board[el[0]].tilePattern === TilePattern.STONE && board[el[1]].tilePattern === TilePattern.STONE && board[el[2]].tilePattern === TilePattern.STONE) {
+        winner = PlayerType.HUMAN;
       } else if (i === lineChecker.length - 1) {
         winner = "TIE"
       }
@@ -117,11 +121,11 @@ function check() {
 }
 
 function count() {
-  if (winner === "COMPUTER") {
+  if (winner === PlayerType.COMPUTER) {
     computerWin ++;
   } 
 
-  if (winner === "HUMAN") {
+  if (winner === PlayerType.HUMAN) {
     humanWin ++;
   }
 
@@ -155,7 +159,7 @@ function printBoard() {
     for (let j = 0; j < root; j ++) {
       const tile = board[i * root + j];
       if (tile) {
-        if (tile.tilePattern == "stone") {
+        if (tile.tilePattern == TilePattern.STONE) {
           row.push('O');
         } else {
           row.push('x');

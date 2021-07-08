@@ -1,6 +1,7 @@
 
 const Board = require("./board");
 const _ = require('lodash');
+const PlayerType = require("../enum/playerType");
 
 class Player {
     constructor(name, tilePattern, playerType) {
@@ -91,7 +92,7 @@ class Player {
     }
 
     get nextMove() {
-        if (this.playerType == "COMPUTER") {
+        if (this.playerType == PlayerType.COMPUTER) {
             this.calculateMove();
         }
         return this._nextMove;
@@ -101,7 +102,7 @@ class Player {
         this._nextMove = value;
     }
 
-} 
-
+}
 module.exports = Player;
+
   

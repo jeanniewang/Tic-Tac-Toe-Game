@@ -17,8 +17,9 @@ class Board {
     static clearTiles() {
       this._tiles.fill(undefined);
     }
-  }
-  
-  module.exports = Board;
+}
+
+module.exports = Board;
+
 
   
