@@ -102,8 +102,8 @@ function restart() {
 }
 
 function check() {
-  const board = Board.tiles;
-  const lineChecker = Board.lineChecker;
+  const board = Board.getTiles();
+  const lineChecker = Board.getLineChecker();
   let i;
   for (i = 0; i < lineChecker.length; i ++) {
     el = lineChecker[i];
@@ -152,7 +152,7 @@ function printInstruction() {
 
 function printBoard() {
   console.log("Current situation:")
-  const board = Board.tiles;
+  const board = Board.getTiles();
   const root = 3;
   for (let i = 0; i < 3; i ++) {
     let row = [];

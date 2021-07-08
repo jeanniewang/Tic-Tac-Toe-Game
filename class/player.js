@@ -61,7 +61,7 @@ class Player {
     }
 
     findNextMove(...arr) {
-        const lineChecker = Board.lineChecker;
+        const lineChecker = Board.getLineChecker();
         const patterns = this.generatePatterns();
         let index = patterns.findIndex((i) => (arr.find(a => _.isEqual(i, a)) !== undefined ));
         if (index >= 0) {
@@ -71,8 +71,8 @@ class Player {
     }
 
     generatePatterns() {
-        const board = Board.tiles;
-        const lineChecker = Board.lineChecker;
+        const board = Board.getTiles();
+        const lineChecker = Board.getLineChecker();
         let result = [];
         for (let i = 0; i < lineChecker.length; i++) {
             const el = lineChecker[i];
