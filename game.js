@@ -45,12 +45,12 @@ function processCommand() {
 
   rl.setPrompt('> ');
   rl.prompt();
-  rl.on('line', function(cmd) {
-      if (/^[0-8]+$/.test(cmd.trim()) && cmd.trim().length === 1) {
-        playerMove(cmd);
+  rl.on('line', function(pos) {
+      if (/^[0-8]+$/.test(pos.trim()) && pos.trim().length === 1 && !tileFilled(pos)) {
+        playerMove(pos);
         playerMove();
       } else {
-          printInstruction();
+        printInstruction();
       }
       printBoard();
       rl.prompt();
@@ -136,6 +136,11 @@ function count() {
 
 function placeTile(tile, pos) {
   Board.placeTile(tile, pos);
+}
+
+function tileFilled(pos) {
+  const tiles = Board.getTiles();
+  return tiles[pos] !== undefined
 }
 
 function printInstruction() {
