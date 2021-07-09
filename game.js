@@ -42,19 +42,21 @@ function startGame() {
 function processCommand() {
   printBoard();
   printInstruction();
-  rl.question('> ', (cmd) => {
-    cmd = cmd.toLowerCase();
 
-    if (cmd === 'q') {
-      rl.close();
-      process.exit();
-    }
-
-    playerMove(cmd);
-    
-    playerMove();
-    
-    processCommand();
+  rl.setPrompt('> ');
+  rl.prompt();
+  rl.on('line', function(cmd) {
+      if (/^[0-8]+$/.test(cmd.trim()) && cmd.trim().length === 1) {
+        playerMove(cmd);
+        playerMove();
+      } else {
+          printInstruction();
+      }
+      printBoard();
+      rl.prompt();
+  }).on('close', function() {
+      console.log('Sorry to see you go. Have a great day!');
+      process.exit(0);
   });
 }
 
@@ -65,12 +67,10 @@ function playerMove(pos) {
     // human player
     humanPlayer.nextMove = pos;
     p = humanPlayer.nextMove;
-    console.log(TilePattern.STONE);
     tile = new Tile(TilePattern.STONE, PlayerType.HUMAN)
   } else {
     // computer player
     p = computerPlayer.nextMove;
-    console.log(TilePattern.CROSS);
     tile = new Tile(TilePattern.CROSS, PlayerType.COMPUTER);
   }
   
@@ -139,6 +139,8 @@ function placeTile(tile, pos) {
 }
 
 function printInstruction() {
+  console.log("Type in the tile number (0 - 8) if you want to place your tile there !!!");
+  console.log('Press Contrl + C if you want to end the game.')
   for (let i = 0; i < 3; i ++) {
     let row = [];
     for (let j = 0; j < 3; j ++) {
@@ -146,7 +148,7 @@ function printInstruction() {
     }
     console.log(row);
   }
-  console.log("Type in the tile number if you want to place your tile there !!!")
+  
   console.log();
 }
 
@@ -174,8 +176,7 @@ function printBoard() {
 }
 
 function printResult() {
-  console.log("tie - computer win - human win");
-  console.log(`${tie} - ${computerWin} - ${humanWin}`);
+  console.log(`${tie} (tie) - ${computerWin} (computer win) - ${humanWin} (human win)`);
 }
 
 
