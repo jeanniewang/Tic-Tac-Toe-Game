@@ -48,7 +48,9 @@ function processCommand() {
   rl.on('line', function(pos) {
       if (/^[0-8]+$/.test(pos.trim()) && pos.trim().length === 1 && !tileFilled(pos)) {
         playerMove(pos);
+        checkWinner();
         playerMove();
+        checkWinner();
       } else {
         printInstruction();
       }
@@ -76,7 +78,9 @@ function playerMove(pos) {
   
   // then place the tile for this player
   placeTile(tile, p);
+}
 
+function checkWinner() {
   win = check();
   if (winner != undefined) {
     count();
